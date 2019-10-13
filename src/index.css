@@ -5,9 +5,118 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #256EFF;
+  color: #eee;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.App {
+  max-width: 400px;
+  margin: 30px auto;
+  text-align: center;
+  background: #2364AA;
+}
+nav{
+  padding: 5px;
+  background: #3185FC;
+}
+nav ul {
+  padding: 0;
+}
+nav ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+nav ul li :hover{
+  cursor: pointer;
+}
+.todo-list {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.todo-list ul{
+  padding: 0;
+  margin-top: 0;
+  
+}
+.todo-list li {
+  height: 40px;
+  margin: 10px auto;
+  background: #3185FC;
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+}
+
+.content {
+  width: 75%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.content-completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.task-content {
+  padding: 10px 0;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+input[type='text']{
+  width: 90%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 6px 0;
+  background: #173753;
+  color: #fff;
+  border: 0;
+}
+
+input[type='password']{
+  width: 90%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin: 6px 0;
+  background: #173753;
+  color: #fff;
+  border: 0;
+}
+
+
+input[type='submit']{
+  margin: 10px auto;
+  background: #eee;
+  border: 0;
+  padding: 6px 20px;
+  display: block;
+  cursor: pointer;
+}
+
+.check-box {
+  height: 40px;
+  width: 40px;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon {
+  font-size: 1.5em;
+  color: #000;
+  cursor: pointer;
+}
+
+.delete-box {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
