@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { TodoContext } from "../contexts/TodoContext";
 import Login from "./Login";
 import TodoDetails from "./TodoDetails";
-import NewTodo from "./NewTodo";
+import NewTodoForm from "./NewTodoForm";
 
 const TodoList = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -11,7 +11,7 @@ const TodoList = () => {
 
   return isAuthenticated ? (
     <>
-      <NewTodo />
+      <NewTodoForm />
       {todos.length ? (
         <div>
           <ul className="todo-list">

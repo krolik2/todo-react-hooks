@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import { db } from "../firebase/Config";
 
 export const TodoContext = createContext();
 
@@ -7,6 +8,15 @@ const TodoContextProvider = props => {
     { content: "wywal smieci", isCompleted: true, isEditing: false, id: 1 },
     { content: "nakarm kota", isCompleted: false, isEditing: false, id: 2 }
   ]);
+
+  db.collection("todos")
+    .get()
+    .then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        console.log(doc.data());
+      });
+    });
+
   const addTodo = content => {
     setTodos([
       ...todos,
@@ -20,23 +30,14 @@ const TodoContextProvider = props => {
     let currentTask = todos.find(todo => todo.id === id);
     setTodos([...todos], (currentTask.isCompleted = !currentTask.isCompleted));
   };
-  const toggleEdit = id => {
-    let currentTask = todos.find(todo => todo.id === id);
-    setTodos([...todos], (currentTask.isEditing = !currentTask.isEditing));
-  };
-  const editTodo = (content) => {
-    // let currentTask = todos.find(todo => todo.id === id);
-    setTodos([...todos, {content}]);
-  };
+
   return (
     <TodoContext.Provider
       value={{
         todos,
         addTodo,
         deleteTodo,
-        toggleTodoStatus,
-        toggleEdit,
-        editTodo
+        toggleTodoStatus
       }}
     >
       {props.children}
