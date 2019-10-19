@@ -1,34 +1,39 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { db } from "../firebase/Config";
 
 export const TodoContext = createContext();
 
 const TodoContextProvider = props => {
-  const [todos, setTodos] = useState([
-    { content: "wywal smieci", isCompleted: true, isEditing: false, id: 1 },
-    { content: "nakarm kota", isCompleted: false, isEditing: false, id: 2 }
-  ]);
+  const [todos, setTodos] = useState([]);
 
-  db.collection("todos")
-    .get()
-    .then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        console.log(doc.data());
-      });
+  useEffect(() => {
+    const data = db.collection("todos").onSnapshot(snapshot => {
+      const newTodos = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setTodos(newTodos);
+      console.log("hook run");
     });
+    return () => data();
+  }, [todos]);
 
   const addTodo = content => {
-    setTodos([
-      ...todos,
-      { content, isCompleted: false, isEditing: false, id: Date.now() }
-    ]);
+    db.collection("todos").add({ content, isCompleted: false });
   };
   const deleteTodo = id => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    db.collection("todos")
+      .doc(id)
+      .delete();
   };
   const toggleTodoStatus = id => {
-    let currentTask = todos.find(todo => todo.id === id);
-    setTodos([...todos], (currentTask.isCompleted = !currentTask.isCompleted));
+    const currentTask = todos.find(todo => todo.id === id);
+    const flip = (currentTask.isCompleted = !currentTask.isCompleted);
+    db.collection("todos")
+      .doc(id)
+      .update({
+        isCompleted: flip
+      });
   };
 
   return (
