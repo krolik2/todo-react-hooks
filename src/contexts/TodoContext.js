@@ -7,19 +7,23 @@ const TodoContextProvider = props => {
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    const data = db.collection("todos").onSnapshot(snapshot => {
-      const newTodos = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setTodos(newTodos);
-      console.log("hook run");
+    return db.collection("todos").orderBy('timeStamp').onSnapshot(querySnapshot => {
+      const list = [];
+      querySnapshot.forEach(doc => {
+        const { content, isCompleted } = doc.data();
+        list.push({
+          id: doc.id,
+          content,
+          isCompleted
+        });
+      });
+      setTodos(list);
+      console.log(" fetch hook run");
     });
-    return () => data();
-  }, [todos]);
+  }, []);
 
   const addTodo = content => {
-    db.collection("todos").add({ content, isCompleted: false });
+    db.collection("todos").add({ content, isCompleted: false, timeStamp: Date.now() });
   };
   const deleteTodo = id => {
     db.collection("todos")
@@ -28,11 +32,11 @@ const TodoContextProvider = props => {
   };
   const toggleTodoStatus = id => {
     const currentTask = todos.find(todo => todo.id === id);
-    const flip = (currentTask.isCompleted = !currentTask.isCompleted);
+    const toggleCompleted = (currentTask.isCompleted = !currentTask.isCompleted);
     db.collection("todos")
       .doc(id)
       .update({
-        isCompleted: flip
+        isCompleted: toggleCompleted
       });
   };
 
