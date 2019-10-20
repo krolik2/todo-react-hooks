@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { TodoContext } from "../contexts/TodoContext";
+import EditTodoForm from './EditTodoForm';
 
 const TodoDetails = ({ todo }) => {
-  const { deleteTodo, toggleTodoStatus } = useContext(TodoContext);
+  const { deleteTodo, toggleTodoStatus, toggleEdit } = useContext(TodoContext);
   return (
     <li>
       <span className="check-box" onClick={() => toggleTodoStatus(todo.id)}>
@@ -13,8 +14,15 @@ const TodoDetails = ({ todo }) => {
           <FontAwesomeIcon icon={faCheck} className="icon" />
         )}
       </span>
-      <span className={`content ${todo.isCompleted && "content-completed"}`}>
-        <p className="task-content">{todo.content}</p>
+      <span
+        className={`content ${todo.isCompleted && "content-completed"}`}
+        onDoubleClick={() => toggleEdit(todo.id)}
+      >
+        {todo.isEditing ? (
+          <EditTodoForm id={todo.id} prevContent={todo.content}/>
+        ) : (
+          <p className="task-content">{todo.content}</p>
+        )}
       </span>
       <span className="delete-box" onClick={() => deleteTodo(todo.id)}>
         {todo.isCompleted && (

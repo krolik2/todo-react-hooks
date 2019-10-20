@@ -10,20 +10,22 @@ const TodoContextProvider = props => {
     return db.collection("todos").orderBy('timeStamp').onSnapshot(querySnapshot => {
       const list = [];
       querySnapshot.forEach(doc => {
-        const { content, isCompleted } = doc.data();
+        const { content, isCompleted, isEditing, timeStamp } = doc.data();
         list.push({
           id: doc.id,
           content,
-          isCompleted
+          isCompleted,
+          isEditing,
+          timeStamp,
         });
       });
       setTodos(list);
-      console.log(" fetch hook run");
+      console.log(" fetch hook run", list);
     });
   }, []);
-
+  
   const addTodo = content => {
-    db.collection("todos").add({ content, isCompleted: false, timeStamp: Date.now() });
+    db.collection("todos").add({ content, isCompleted: false, isEditing:false, timeStamp: Date.now() });
   };
   const deleteTodo = id => {
     db.collection("todos")
@@ -39,6 +41,18 @@ const TodoContextProvider = props => {
         isCompleted: toggleCompleted
       });
   };
+  const toggleEdit = id => {
+    const currentTask = todos.find(todo => todo.id === id);
+    setTodos([...todos], (currentTask.isEditing = !currentTask.isEditing));
+  };
+  const editTodo = (content, id) => {
+    db.collection("todos")
+      .doc(id)
+      .update({
+        content:content,
+        isEditing: false
+      });
+  };
 
   return (
     <TodoContext.Provider
@@ -46,7 +60,9 @@ const TodoContextProvider = props => {
         todos,
         addTodo,
         deleteTodo,
-        toggleTodoStatus
+        toggleTodoStatus,
+        toggleEdit,
+        editTodo,
       }}
     >
       {props.children}
