@@ -15,7 +15,7 @@ const EditTodo = ({id, prevContent}) => {
       }
     }
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} onBlur={handleSubmit}>
       <input
         type="text"
         value={content}

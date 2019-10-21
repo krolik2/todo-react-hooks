@@ -6,10 +6,10 @@ import TodoDetails from "./TodoDetails";
 import NewTodoForm from "./NewTodoForm";
 
 const TodoList = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { currentUser} = useContext(AuthContext);
   const { todos } = useContext(TodoContext);
 
-  return isAuthenticated ? (
+  return currentUser ? (
     <>
       <NewTodoForm />
       {todos.length ? (

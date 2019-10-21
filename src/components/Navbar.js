@@ -4,15 +4,15 @@ import { AuthContext } from "../contexts/AuthContext";
 import { TodoContext } from '../contexts/TodoContext';
 
 const Navbar = () => {
-  const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+  const { currentUser, logout } = useContext(AuthContext);
   const { todos } = useContext(TodoContext);
   return (
     <nav>
       <h1>Todo-app with React Hooks</h1>
-      {isAuthenticated ? (
+      {currentUser ? (
         <div>
           <ul>
-            <li onClick={()=> toggleAuth()}><NavLink to='/'>Log Out</NavLink></li>
+            <li onClick={()=> logout()}><NavLink to='/'>Log Out</NavLink></li>
           </ul>
           <p>You have {todos.length} more task on your list</p>
         </div>
