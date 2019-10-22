@@ -1,31 +1,44 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { db } from "../firebase/Config";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const TodoContext = createContext();
 
 const TodoContextProvider = props => {
+  const { currentUser } = useContext(AuthContext);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
-    return db.collection("todos").orderBy('timeStamp').onSnapshot(querySnapshot => {
-      const list = [];
-      querySnapshot.forEach(doc => {
-        const { content, isCompleted, isEditing, timeStamp } = doc.data();
-        list.push({
-          id: doc.id,
-          content,
-          isCompleted,
-          isEditing,
-          timeStamp,
+    if (currentUser) {
+      const loggedInUserId = currentUser.uid;
+      const loggedInUserTodos = db
+        .collectionGroup("todos")
+        .where("user", "==", loggedInUserId);
+      return loggedInUserTodos.orderBy("timeStamp").onSnapshot(querySnapshot => {
+        const list = [];
+        querySnapshot.forEach(doc => {
+          const { content, isCompleted, isEditing, timeStamp } = doc.data();
+          list.push({
+            id: doc.id,
+            content,
+            isCompleted,
+            isEditing,
+            timeStamp
+          });
         });
+        setTodos(list);
       });
-      setTodos(list);
-      console.log(" fetch hook run", list);
+    }
+  }, [currentUser]);
+
+  const addTodo = (content, user) => {
+    db.collection("todos").add({
+      content,
+      isCompleted: false,
+      isEditing: false,
+      timeStamp: Date.now(),
+      user
     });
-  }, []);
-  
-  const addTodo = content => {
-    db.collection("todos").add({ content, isCompleted: false, isEditing:false, timeStamp: Date.now() });
   };
   const deleteTodo = id => {
     db.collection("todos")
@@ -49,7 +62,7 @@ const TodoContextProvider = props => {
     db.collection("todos")
       .doc(id)
       .update({
-        content:content,
+        content: content,
         isEditing: false
       });
   };
@@ -62,7 +75,7 @@ const TodoContextProvider = props => {
         deleteTodo,
         toggleTodoStatus,
         toggleEdit,
-        editTodo,
+        editTodo
       }}
     >
       {props.children}

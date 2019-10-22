@@ -6,6 +6,7 @@ import { TodoContext } from '../contexts/TodoContext';
 const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
   const { todos } = useContext(TodoContext);
+
   return (
     <nav>
       <h1>Todo-app with React Hooks</h1>
@@ -14,7 +15,7 @@ const Navbar = () => {
           <ul>
             <li onClick={()=> logout()}><NavLink to='/'>Log Out</NavLink></li>
           </ul>
-          <p>You have {todos.length} more task on your list</p>
+          <p>Hi, {currentUser.displayName} you have {todos.length} tasks on your list</p>
         </div>
         ) : (
           <div>

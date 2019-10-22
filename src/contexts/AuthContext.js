@@ -1,28 +1,40 @@
 import React, { createContext, useState, useEffect } from "react";
-import { auth } from '../firebase/Config';
+import { auth } from "../firebase/Config";
 
 export const AuthContext = createContext();
 
-const AuthContextProvider = (props) =>{
-  const [currentUser, setCurrentUser] = useState(null)
+const AuthContextProvider = props => {
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    auth.onAuthStateChanged(setCurrentUser)
-    console.log('auth hook run')
-  }, [])
+    auth.onAuthStateChanged(currentUser => {
+      if (currentUser) {
+        setCurrentUser(currentUser);
+      } else {
+        setCurrentUser(null);
+      }
+    });
+  }, []);
 
-  async function login(email, password) {
-   await auth.signInWithEmailAndPassword(email, password)
-   .catch((e)=> console.log('login failed', e))
+  const login = (email, password) => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch(e => console.log("login failed", e));
   };
 
-  async function signup(email, password) {
-    await auth.createUserWithEmailAndPassword(email, password)
-    .catch((e)=> console.log('singnup failed', e))
-  }
+  const signup = (name, email, password) => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(cred => {
+        cred.user.updateProfile({
+          displayName: name
+        });
+      })
+      .catch(e => console.log("singnup failed", e));
+  };
 
   const logout = () => {
-  auth.signOut()
+    auth.signOut();
   };
 
   return (
@@ -37,6 +49,6 @@ const AuthContextProvider = (props) =>{
       {props.children}
     </AuthContext.Provider>
   );
-}
+};
 
-export default AuthContextProvider
+export default AuthContextProvider;

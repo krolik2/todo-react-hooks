@@ -1,14 +1,16 @@
 import React, { useContext, useState } from 'react';
 import { TodoContext } from '../contexts/TodoContext';
+import { AuthContext } from '../contexts/AuthContext';
 
 const NewTodoForm = () => {
+    const { currentUser } = useContext(AuthContext);
     const { addTodo } = useContext(TodoContext);
     const [content, setContent] = useState('')
 
     const handleSubmit = e => {
       e.preventDefault();
       if(content.trim() !== ""){
-      addTodo(content)
+      addTodo(content, currentUser.uid)
         setContent('');
     }
   }
