@@ -19,7 +19,7 @@ const NewTodoForm = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <input type="text" placeholder="todo" value={content} onChange={(e)=>setContent(e.target.value)} />
-        <input type="submit" value="add todo" />
+        <input type="submit" value="Add todo" />
       </form>
     </div>
   );

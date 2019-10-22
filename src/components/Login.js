@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 import { Redirect } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 
 const Login = () => {
@@ -19,8 +20,9 @@ const Login = () => {
       <form onSubmit={handleSignIn}>
         <input type="text" value={email} autoComplete='username' placeholder="email" onChange={(e)=>setEmail(e.target.value)}/>
         <input type="password" autoComplete='current-password' value={password} placeholder="password" onChange={(e)=>setPassword(e.target.value)}/>
-        <input type="submit" value="login" />
+        <input type="submit" value="Login" />
       </form>
+      <p className="notification-bar">Don't have an account? <NavLink to='signup'>Sign up</NavLink></p>
     </>
   );
 };

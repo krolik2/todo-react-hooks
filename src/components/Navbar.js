@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { TodoContext } from '../contexts/TodoContext';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const { currentUser, logout } = useContext(AuthContext);
@@ -13,17 +15,12 @@ const Navbar = () => {
       {currentUser ? (
         <div>
           <ul>
-            <li onClick={()=> logout()}><NavLink to='/'>Log Out</NavLink></li>
+            <li onClick={()=> logout()}><NavLink to='/'><FontAwesomeIcon icon={faDoorOpen} className="log-out" title='log out' /></NavLink></li>
           </ul>
-          <p>Hi, {currentUser.displayName} you have {todos.length} tasks on your list</p>
+          <p className='info-bar'>Hi, {currentUser.displayName} you have {todos.length} tasks on your list</p>
         </div>
         ) : (
-          <div>
-            <ul>
-              <li><NavLink to='login'>Login</NavLink></li>
-              <li><NavLink to='signup'>Signup</NavLink></li>
-            </ul>
-          </div>
+          null
         )
       }
     </nav>

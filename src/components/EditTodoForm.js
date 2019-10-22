@@ -15,8 +15,9 @@ const EditTodo = ({id, prevContent}) => {
       }
     }
   return (
-    <form onSubmit={handleSubmit} onBlur={handleSubmit}>
+    <form className='edit-form' onSubmit={handleSubmit} onBlur={handleSubmit}>
       <input
+        className="edit-input"
         type="text"
         value={content}
         onChange={e => setTodo(e.target.value)}>
