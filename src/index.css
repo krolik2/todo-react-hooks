@@ -128,6 +128,10 @@ table {
   border-spacing: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -140,7 +144,7 @@ a {
   text-decoration: underline;
   color: #1abc9c;
 }
- 
+
 h1 {
   line-height: 1.3em;
   font-size: 2em;
@@ -191,7 +195,6 @@ form {
   font-style: italic;
   font-weight: bold;
   margin-bottom: 0;
-  margin-top: 20px;
   color: rgba(10, 60, 150, 0.8);
   text-shadow: 1px 4px 6px #2364aa, 0 0 0 #000, 1px 4px 6px #2364aa;
   cursor: default;
@@ -204,73 +207,91 @@ form {
   margin-top: 0;
 }
 .todo-list li {
-  height: 40px;
+  height: 50px;
   margin: 10px auto;
   background: #3185fc;
-  list-style-type: none;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
   padding: 5px;
 }
 
-.content {
-  width: 75%;
-  height: 100%;
-  margin: 0 auto;
+.todo__checkbox {
+  height: 40px;
+  width: 40px;
+  background: #eee;
+  display: inline-block;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.content-completed {
-  text-decoration: line-through;
-  opacity: 0.7;
+.todo__content {
+  width: 270px;
+  height: 100%;
+  padding: 5px;
+  word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.task-content {
-  padding: 5px 0;
-  margin: 0;
+.todo__content-completed {
+  text-decoration: line-through;
+  opacity: 0.7;
+  width: 270px;
+  height: 100%;
+  padding: 5px;
   word-wrap: break-word;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo__deletebox {
+  height: 40px;
+  width: 40px;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.todo__edit-form {
+  margin-top: 0;
+  width: 270px;
 }
 
 .notification-bar {
   padding: 5px;
 }
 
-input[type="text"] {
+.input {
   width: 90%;
   padding: 10px;
   box-sizing: border-box;
-  margin: 6px 0;
   background: #173753;
   color: #fff;
-  border: 0;
-  margin-bottom: 10px;
   font-size: 1em;
   outline: none;
+  border: 1px transparent;
 }
 
-input[type="password"] {
+.input__container {
+  margin-bottom: 10px;
+}
+
+.input__error {
   width: 90%;
-  padding: 10px;
-  box-sizing: border-box;
-  margin: 6px 0;
-  background: #173753;
-  color: #fff;
-  border: 0;
-  margin-bottom: 10px;
-  font-size: 1em;
-  outline: none;
-}
-
-.check-box {
-  height: 40px;
-  width: 40px;
-  background: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+  color: red;
+  font-size: 0.7em;
+  bottom: -25px;
+  left: 0px;
+  font-weight: bold;
+  padding: 5px 1px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .icon {
@@ -286,13 +307,6 @@ input[type="password"] {
   cursor: pointer;
 }
 
-.delete-box {
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 input[type="submit"] {
   padding: 13px 20px;
   background-color: #1abc9c;
@@ -307,8 +321,7 @@ input[type="submit"] {
   cursor: pointer;
   outline: none;
   border: none;
-  margin-top: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 29px;
 }
 
 input[type="submit"]:hover {
@@ -323,13 +336,4 @@ input[type="submit"]:active {
   background-color: #17a98c;
   border-radius: 3px;
   box-shadow: 0px 3px 0px 0px #09977c;
-}
-
-.edit-form {
-  margin-top: 0;
-  width: 100%
-}
-
-.edit-input {
- margin: 0 !important ;
 }

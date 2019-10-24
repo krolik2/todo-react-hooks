@@ -5,11 +5,14 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [loginErrorMessage, setLoginErrorMessage] = useState(null);
+  const [signupErrorMessage, setSignupErrorMessage] = useState(null);
 
   useEffect(() => {
     auth.onAuthStateChanged(currentUser => {
       if (currentUser) {
         setCurrentUser(currentUser);
+        removeErorMsg();
       } else {
         setCurrentUser(null);
       }
@@ -19,22 +22,24 @@ const AuthContextProvider = props => {
   const login = (email, password) => {
     auth
       .signInWithEmailAndPassword(email, password)
-      .catch(e => console.log("login failed", e));
+      .catch(e => setLoginErrorMessage(e.message));
   };
 
   const signup = (name, email, password) => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then(cred => {
-        cred.user.updateProfile({
+    auth.createUserWithEmailAndPassword(email, password).then(cred => {
+      cred.user
+        .updateProfile({
           displayName: name
-        });
-      })
-      .catch(e => console.log("singnup failed", e));
+        })
+    }).catch(e => setSignupErrorMessage(e.message))
   };
 
   const logout = () => {
-    auth.signOut();
+    auth.signOut().then(() => setCurrentUser(null));
+  };
+
+  const removeErorMsg = () => {
+    return (setLoginErrorMessage(null), setSignupErrorMessage(null));
   };
 
   return (
@@ -43,7 +48,10 @@ const AuthContextProvider = props => {
         currentUser,
         login,
         logout,
-        signup
+        signup,
+        loginErrorMessage,
+        signupErrorMessage,
+        removeErorMsg
       }}
     >
       {props.children}
