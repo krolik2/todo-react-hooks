@@ -146,6 +146,7 @@ a {
 }
 
 h1 {
+  padding-top: 17px;
   line-height: 1.3em;
   font-size: 2em;
   font-weight: bold;
@@ -158,13 +159,19 @@ h2 {
   font-weight: bold;
 }
 
-.App {
-  max-width: 400px;
+.app {
+  position: absolute;
+  top: 10vh;
+  left: 0;
+  right: 0;
+  margin: 0;
+  width: 400px;
   margin: 30px auto;
   text-align: center;
   background: #2364aa;
 }
 nav {
+  position: relative;
   min-height: 140px;
   padding: 10px;
   background: #3185fc;
@@ -178,6 +185,60 @@ nav ul {
 nav ul li {
   display: inline-block;
   margin: 0 10px;
+}
+
+.hook__left {
+  background: url(../src/img/left-hook.svg) no-repeat;
+  position: absolute;
+  top: -177px;
+  left: 4px;
+  height: 200px;
+  width: 60px;
+  background-size: contain;
+  z-index: 4;
+}
+
+.hook__right {
+  background: url(../src/img/right-hook.svg) no-repeat;
+  position: absolute;
+  top: -177px;
+  right: 0px;
+  height: 200px;
+  width: 60px;
+  background-size: contain;
+  z-index: 4;
+}
+
+.hook__left-dot {
+  position: absolute;
+  background: #256eff;
+  width: 30px;
+  height: 30px;
+  top: 2px;
+  left: 10px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.hook__right-dot {
+  position: absolute;
+  background: #256eff;
+  width: 30px;
+  height: 30px;
+  top: 2px;
+  right: 10px;
+  border-radius: 50%;
+  z-index: 2;
+}
+
+.hook__mask {
+  width: 320px;
+  height: 30px;
+  top:0;
+  left: 40px;
+  position: absolute;
+  background: #3185fc;
+  z-index: 5;
 }
 
 nav ul li :hover {

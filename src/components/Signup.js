@@ -16,7 +16,6 @@ const Signup = () => {
 
   useEffect(()=>{
     setSignupErrorMessage(null)
-    console.log('fire-signup')
   }, [setSignupErrorMessage])
 
   return currentUser ? (

@@ -11,6 +11,11 @@ const Navbar = () => {
 
   return (
     <nav>
+      <div className='hook__left'></div>
+      <div className='hook__right'></div>
+      <div className='hook__left-dot'></div>
+      <div className='hook__right-dot'></div>
+      <div className='hook__mask'></div>
       <h1>Todo-app with React Hooks</h1>
       {currentUser ? (
         <div>

@@ -9,7 +9,7 @@ import TodoContextProvider from "./contexts/TodoContext";
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <Router>
         <AuthContextProvider>
         <TodoContextProvider>
