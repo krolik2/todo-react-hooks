@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import { Redirect } from "react-router-dom";
 
 const Signup = () => {
-  const { signup, currentUser, signupErrorMessage, removeErrorMessage } = useContext(AuthContext);
+  const { signup, currentUser, setSignupErrorMessage, signupErrorMessage } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -15,9 +15,9 @@ const Signup = () => {
 
 
   useEffect(()=>{
-    window.addEventListener('hashchange', removeErrorMessage)
+    setSignupErrorMessage(null)
     console.log('fire-signup')
-  }, [removeErrorMessage])
+  }, [setSignupErrorMessage])
 
   return currentUser ? (
     <Redirect to="/" />

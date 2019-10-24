@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
 const Login = () => {
-  const { login, loginErrorMessage, removeErrorMessage, currentUser } = useContext(AuthContext);
+  const { login, loginErrorMessage, setLoginErrorMessage, currentUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,9 +14,8 @@ const Login = () => {
   };
 
   useEffect(()=>{
-    window.addEventListener('hashchange', removeErrorMessage)
-    console.log('fire-login')
-  }, [removeErrorMessage])
+    setLoginErrorMessage(null)
+  }, [setLoginErrorMessage])
 
   return currentUser ? (
     <Redirect to="/" />

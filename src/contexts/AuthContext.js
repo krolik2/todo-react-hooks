@@ -51,7 +51,9 @@ const AuthContextProvider = props => {
         signup,
         loginErrorMessage,
         signupErrorMessage,
-        removeErorMsg
+        removeErorMsg,
+        setLoginErrorMessage,
+        setSignupErrorMessage
       }}
     >
       {props.children}
