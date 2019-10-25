@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faTrashAlt, faEdit } from "@fortawesome/free-regular-svg-icons";
 import { TodoContext } from "../contexts/TodoContext";
 import EditTodoForm from "./EditTodoForm";
 
@@ -22,7 +22,6 @@ const TodoDetails = ({ todo }) => {
       ) : (
         <span
           className="todo__content"
-          onDoubleClick={() => toggleEdit(todo.id)}
         >
           {todo.isEditing ? (
             <EditTodoForm id={todo.id} prevContent={todo.content} />
@@ -32,11 +31,17 @@ const TodoDetails = ({ todo }) => {
         </span>
       )}
       <span className="todo__deletebox">
-        {todo.isCompleted && (
+        {todo.isCompleted ? (
           <FontAwesomeIcon
             icon={faTrashAlt}
             className="icon"
             onClick={() => deleteTodo(todo.id)}
+          />
+          ):(
+            <FontAwesomeIcon
+            icon={faEdit}
+            className="icon"
+            onClick={() => toggleEdit(todo.id)}
           />
         )}
       </span>

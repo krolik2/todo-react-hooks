@@ -14,7 +14,6 @@ const TodoList = () => {
       <NewTodoForm />
       {todos.length ? (
         <div>
-        <p className='tip'>double click on todo to edit</p>
           <ul className="todo-list">
             {todos.map(todo => {
               return <TodoDetails todo={todo} key={todo.id} />;
