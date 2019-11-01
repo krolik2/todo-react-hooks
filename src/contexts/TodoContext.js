@@ -6,6 +6,7 @@ export const TodoContext = createContext();
 
 const TodoContextProvider = props => {
   const { currentUser } = useContext(AuthContext);
+  const [loadingList, setLoadingList] = useState(true);
   const [todos, setTodos] = useState([]);
 
   useEffect(() => {
@@ -14,22 +15,29 @@ const TodoContextProvider = props => {
       const loggedInUserTodos = db
         .collectionGroup("todos")
         .where("user", "==", loggedInUserId);
-      return loggedInUserTodos.orderBy("timeStamp").onSnapshot(querySnapshot => {
-        const list = [];
-        querySnapshot.forEach(doc => {
-          const { content, isCompleted, isEditing, timeStamp } = doc.data();
-          list.push({
-            id: doc.id,
-            content,
-            isCompleted,
-            isEditing,
-            timeStamp
+      return loggedInUserTodos
+        .orderBy("timeStamp")
+        .onSnapshot(querySnapshot => {
+          const list = [];
+          querySnapshot.forEach(doc => {
+            const { content, isCompleted, isEditing, timeStamp } = doc.data();
+            list.push({
+              id: doc.id,
+              content,
+              isCompleted,
+              isEditing,
+              timeStamp
+            });
           });
+
+          setTodos(list);
+
+          if (loadingList) {
+            setLoadingList(false);
+          }
         });
-        setTodos(list);
-      });
     }
-  }, [currentUser]);
+  }, [currentUser, loadingList]);
 
   const addTodo = (content, user) => {
     db.collection("todos").add({
@@ -40,11 +48,13 @@ const TodoContextProvider = props => {
       user
     });
   };
+
   const deleteTodo = id => {
     db.collection("todos")
       .doc(id)
       .delete();
   };
+
   const toggleTodoStatus = id => {
     const currentTask = todos.find(todo => todo.id === id);
     const toggleCompleted = (currentTask.isCompleted = !currentTask.isCompleted);
@@ -54,10 +64,12 @@ const TodoContextProvider = props => {
         isCompleted: toggleCompleted
       });
   };
+
   const toggleEdit = id => {
     const currentTask = todos.find(todo => todo.id === id);
     setTodos([...todos], (currentTask.isEditing = !currentTask.isEditing));
   };
+
   const editTodo = (content, id) => {
     db.collection("todos")
       .doc(id)
@@ -75,7 +87,8 @@ const TodoContextProvider = props => {
         deleteTodo,
         toggleTodoStatus,
         toggleEdit,
-        editTodo
+        editTodo,
+        loadingList
       }}
     >
       {props.children}

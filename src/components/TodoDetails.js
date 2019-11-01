@@ -7,43 +7,42 @@ import EditTodoForm from "./EditTodoForm";
 
 const TodoDetails = ({ todo }) => {
   const { deleteTodo, toggleTodoStatus, toggleEdit } = useContext(TodoContext);
-  return (
+  return todo.isCompleted ? (
     <li>
       <span
         className="todo__checkbox"
         onClick={() => toggleTodoStatus(todo.id)}
       >
-        {todo.isCompleted && (
-          <FontAwesomeIcon icon={faCheck} className="icon" />
+        <FontAwesomeIcon icon={faCheck} className="icon" />
+      </span>
+      <p className="todo__content-completed">{todo.content}</p>
+      <span className="todo__option-box">
+        <FontAwesomeIcon
+          icon={faTrashAlt}
+          className="icon"
+          onClick={() => deleteTodo(todo.id)}
+        />
+      </span>
+    </li>
+  ) : (
+    <li>
+      <span
+        className="todo__checkbox"
+        onClick={() => toggleTodoStatus(todo.id)}
+      ></span>
+      <span className="todo__content">
+        {todo.isEditing ? (
+          <EditTodoForm id={todo.id} prevContent={todo.content} />
+        ) : (
+          <p>{todo.content}</p>
         )}
       </span>
-      {todo.isCompleted ? (
-        <p className="todo__content-completed">{todo.content}</p>
-      ) : (
-        <span
-          className="todo__content"
-        >
-          {todo.isEditing ? (
-            <EditTodoForm id={todo.id} prevContent={todo.content} />
-          ) : (
-            <p>{todo.content}</p>
-          )}
-        </span>
-      )}
-      <span className="todo__deletebox">
-        {todo.isCompleted ? (
-          <FontAwesomeIcon
-            icon={faTrashAlt}
-            className="icon"
-            onClick={() => deleteTodo(todo.id)}
-          />
-          ):(
-            <FontAwesomeIcon
-            icon={faEdit}
-            className="icon"
-            onClick={() => toggleEdit(todo.id)}
-          />
-        )}
+      <span className="todo__option-box">
+        <FontAwesomeIcon
+          icon={faEdit}
+          className="icon"
+          onClick={() => toggleEdit(todo.id)}
+        />
       </span>
     </li>
   );

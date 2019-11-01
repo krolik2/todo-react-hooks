@@ -4,15 +4,18 @@ import { TodoContext } from "../contexts/TodoContext";
 import Login from "./Login";
 import TodoDetails from "./TodoDetails";
 import NewTodoForm from "./NewTodoForm";
+import { BeatLoader } from "react-spinners";
 
 const TodoList = () => {
-  const { currentUser} = useContext(AuthContext);
-  const { todos } = useContext(TodoContext);
+  const { currentUser } = useContext(AuthContext);
+  const { todos, loadingList } = useContext(TodoContext);
 
   return currentUser ? (
     <>
       <NewTodoForm />
-      {todos.length ? (
+      {loadingList ? (
+        <BeatLoader />
+      ) : (
         <div>
           <ul className="todo-list">
             {todos.map(todo => {
@@ -20,8 +23,6 @@ const TodoList = () => {
             })}
           </ul>
         </div>
-      ) : (
-        <p className='notification-bar'>no more todos, yay!</p>
       )}
     </>
   ) : (

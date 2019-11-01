@@ -301,7 +301,7 @@ form {
   justify-content: center;
 }
 
-.todo__deletebox {
+.todo__option-box {
   height: 40px;
   width: 40px;
   display: inline-block;
